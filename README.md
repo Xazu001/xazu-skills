@@ -15,6 +15,7 @@ Global [Devin CLI](https://devin.ai) skills, synced across machines.
 | `xazu-split-commits` | Splits current work into multiple logical commits via file/hunk-level staging. |
 | `xazu-new-branch` | Starts the requested work on a fresh conventionally-named branch, safely with dirty trees. |
 | `xazu-open-pr` | Pushes the branch and opens a `gh` PR — Summary covering all commits + test plan. |
+| `xazu-confirm` | Restates the request as a polished structured summary (PL/EN mirrored) and asks "is this what you meant?" before acting. |
 
 ## Install
 
