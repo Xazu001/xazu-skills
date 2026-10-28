@@ -6,6 +6,10 @@ Global [Devin CLI](https://devin.ai) skills, synced across machines.
 | ----- | ------- |
 | `run-plan` | Execute a `*_PLAN.md` stage-by-stage with a companion `*_IMPLEMENTATION_LOG.md` — resumable across sessions without re-exploring the codebase. |
 | `opt-tokens` | Token-economy mode: targeted reads, no re-reads, terse output. |
+| `map-repo` | One-time deep exploration → compact `REPO_MAP.md` future sessions read instead of re-exploring. Supports `refresh`. |
+| `session-handoff` | Saves session state (done / in-progress / blockers / next / hard-won context) to `HANDOFF.md` for cheap resume. |
+| `scope-guard` | Session-wide scope enforcement — minimal diff, no drive-by refactors, ask before expanding. |
+| `review` | Read-only code review of staged diff / branch / PR / commit / files — findings by severity with `file:line`. |
 
 ## Install
 
