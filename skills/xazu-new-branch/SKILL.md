@@ -1,5 +1,5 @@
 ---
-name: new-branch
+name: xazu-new-branch
 description: Do the requested work on a fresh, conventionally-named branch — safely handling uncommitted changes.
 argument-hint: "<branch-name or task>"
 allowed-tools:

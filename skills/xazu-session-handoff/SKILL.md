@@ -1,5 +1,5 @@
 ---
-name: session-handoff
+name: xazu-session-handoff
 description: Save session state to a handoff file so the next session resumes without re-exploring — use at session end or before switching tasks.
 allowed-tools:
   - read

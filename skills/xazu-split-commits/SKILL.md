@@ -1,5 +1,5 @@
 ---
-name: split-commits
+name: xazu-split-commits
 description: Split current uncommitted work into multiple logical commits — grouped by concern, each self-contained.
 allowed-tools:
   - exec

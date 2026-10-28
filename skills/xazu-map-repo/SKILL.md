@@ -1,5 +1,5 @@
 ---
-name: map-repo
+name: xazu-map-repo
 description: One-time deep exploration → writes a compact REPO_MAP so future sessions read 1 file instead of re-exploring the codebase.
 argument-hint: "[refresh | section]"
 allowed-tools:

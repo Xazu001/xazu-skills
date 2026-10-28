@@ -1,5 +1,5 @@
 ---
-name: commit-me
+name: xazu-commit-me
 description: Create a commit authored by the USER (their configured git identity), following repo commit style.
 argument-hint: "[scope/files]"
 allowed-tools:

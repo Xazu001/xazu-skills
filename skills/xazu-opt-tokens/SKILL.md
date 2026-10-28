@@ -1,5 +1,5 @@
 ---
-name: opt-tokens
+name: xazu-opt-tokens
 description: Minimize token burn — targeted reads, no re-reading, terse output. Apply this whole session.
 ---
 

@@ -1,5 +1,5 @@
 ---
-name: commit-devin
+name: xazu-commit-devin
 description: Create a commit authored by Devin (Devin identity + attribution trailer), following repo commit style.
 argument-hint: "[scope/files]"
 allowed-tools:

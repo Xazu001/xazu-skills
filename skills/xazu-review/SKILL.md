@@ -1,5 +1,5 @@
 ---
-name: review
+name: xazu-review
 description: Code review of a diff, staged changes, branch, PR, or pasted code — findings by severity, read-only.
 argument-hint: "[branch|pr|staged|file|commit]"
 allowed-tools:

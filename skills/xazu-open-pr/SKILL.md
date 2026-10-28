@@ -1,5 +1,5 @@
 ---
-name: open-pr
+name: xazu-open-pr
 description: Push the current branch and open a GitHub PR with a reviewed title/body via gh.
 argument-hint: "[title | --draft]"
 allowed-tools:

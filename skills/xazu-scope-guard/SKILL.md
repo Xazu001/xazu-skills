@@ -1,5 +1,5 @@
 ---
-name: scope-guard
+name: xazu-scope-guard
 description: Enforce request scope — minimal diff, no drive-by refactors, flag and ask before expanding. Apply for the whole session.
 ---
 

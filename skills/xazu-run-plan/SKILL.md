@@ -1,5 +1,5 @@
 ---
-name: run-plan
+name: xazu-run-plan
 description: Execute a plan file stage-by-stage with a companion *_IMPLEMENTATION_LOG.md — resumable across sessions, minimal re-exploration.
 argument-hint: "[plan file or stage]"
 allowed-tools:
