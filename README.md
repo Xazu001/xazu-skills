@@ -10,6 +10,11 @@ Global [Devin CLI](https://devin.ai) skills, synced across machines.
 | `session-handoff` | Saves session state (done / in-progress / blockers / next / hard-won context) to `HANDOFF.md` for cheap resume. |
 | `scope-guard` | Session-wide scope enforcement — minimal diff, no drive-by refactors, ask before expanding. |
 | `review` | Read-only code review of staged diff / branch / PR / commit / files — findings by severity with `file:line`. |
+| `commit-devin` | Commit authored by Devin (identity + attribution trailer, `-c` flags, never touches git config). |
+| `commit-me` | Commit authored by you (your configured git identity). |
+| `split-commits` | Splits current work into multiple logical commits via file/hunk-level staging. |
+| `new-branch` | Starts the requested work on a fresh conventionally-named branch, safely with dirty trees. |
+| `open-pr` | Pushes the branch and opens a `gh` PR — Summary covering all commits + test plan. |
 
 ## Install
 
