@@ -4,7 +4,7 @@ Global [Devin CLI](https://devin.ai) skills, synced across machines.
 
 | Skill | Purpose |
 | ----- | ------- |
-| `xazu-run-plan` | Execute a `*_PLAN.md` stage-by-stage with a companion `*_IMPLEMENTATION_LOG.md` — resumable across sessions without re-exploring the codebase. |
+| `xazu-run-plan` | Execute a `*_PLAN.md` stage-by-stage (creates it if missing) with a companion `*_IMPLEMENTATION_LOG.md` — resumable across sessions, accumulates discoveries in one place. |
 | `xazu-opt-tokens` | Token-economy mode: targeted reads, no re-reads, terse output. |
 | `xazu-map-repo` | One-time deep exploration → compact `REPO_MAP.md` future sessions read instead of re-exploring. Supports `refresh`. |
 | `xazu-session-handoff` | Saves session state (done / in-progress / blockers / next / hard-won context) to `HANDOFF.md` for cheap resume. |

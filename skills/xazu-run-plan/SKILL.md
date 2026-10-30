@@ -1,6 +1,6 @@
 ---
 name: xazu-run-plan
-description: Execute a plan file stage-by-stage with a companion *_IMPLEMENTATION_LOG.md — resumable across sessions, minimal re-exploration.
+description: Execute a plan file stage-by-stage (creating it if missing) with a companion *_IMPLEMENTATION_LOG.md — resumable across sessions, minimal re-exploration, accumulates discoveries.
 argument-hint: "[plan file or stage]"
 allowed-tools:
   - read
@@ -22,6 +22,8 @@ log file instead of re-exploring the codebase.
 - If the user named a plan file, use it.
 - Otherwise check `.agents/plans/`, `.devin/plans/`, `docs/plans/` — pick the file
   matching the request; ask only if genuinely ambiguous.
+- **No plan exists** → create one via "Creating a plan" below (plan + empty log),
+  then continue to execution — this skill was invoked to get work done.
 - If the user asked you to PLAN (not implement), jump to "Creating a plan".
 
 ## Companion log
@@ -44,13 +46,18 @@ append `_IMPLEMENTATION_LOG` to the base name (`x.md` → `x_IMPLEMENTATION_LOG.
    guess). Only mark ✅ after a green result; 🟡 when verification needs a manual
    step; ⛔ when blocked (always with reason).
 6. Update the log: status, scope, files changed, decisions/deviations, the exact
-   verification command + result. Then next stage.
+   verification command + result. Append anything non-obvious you learned while
+   implementing to `## Discoveries`. Then next stage.
 
 ## Rules
 
 - **Never mark ✅ without a passing verification** for the affected target.
 - **Log deviations** — when reality forces a change vs. the plan, record it under
   Decyzje/Decisions with the reason. Do not silently diverge.
+- **Log discoveries as you go** — the moment you learn something non-obvious (where
+  X lives, a repo quirk, a command that works, a gotcha that cost you time), append
+  it to the log's `## Discoveries` section tagged with the stage. The log is the
+  single place for hard-won context — keep it close, keep it current.
 - **Never claim tests/sandbox/E2E you didn't run.** Mocked or "should work" is not done.
 - **Preserve contracts** — if a "do not break" item must break, stop and ask.
 - Use `todo_write` to mirror stages for live visibility.
@@ -60,7 +67,7 @@ append `_IMPLEMENTATION_LOG` to the base name (`x.md` → `x_IMPLEMENTATION_LOG.
 
 ## Creating a plan (planning mode)
 
-When the user asks to plan work rather than implement it:
+When the user asks to plan work rather than implement it — or no plan file exists:
 
 1. Explore cheaply (see `opt-tokens` if available).
 2. Write `<NAME>_PLAN.md` with: goal, in/out of scope, numbered stages ordered by
@@ -68,7 +75,8 @@ When the user asks to plan work rather than implement it:
    decisions, non-negotiable contracts, and a test/acceptance section.
 3. Create the empty `<NAME>_IMPLEMENTATION_LOG.md` from the template — one section
    per stage, all ⬜.
-4. Stop. Do not implement unless the user approves.
+4. Stop only if the user asked for a plan alone; when the plan was missing during
+   execution, continue straight to "Executing a stage".
 
 ## Log template
 
@@ -83,6 +91,16 @@ When the user asks to plan work rather than implement it:
 - 🟡 done, verification pending / manual check needed
 - ⬜ not started
 - ⛔ blocked / rejected (with reason)
+
+---
+
+## Discoveries
+
+> Running knowledge base — non-obvious findings that make this work easier:
+> where things live, repo quirks, commands that work, gotchas. Add the moment
+> you learn them, tag with the stage. Read this first on resume.
+
+- <stage> — <discovery>
 
 ---
 
@@ -107,5 +125,6 @@ When the user asks to plan work rather than implement it:
 
 ## Resume workflow
 
-When the user says "continue" / "dalej": read the log → find first ⬜/🟡 stage →
+When the user says "continue" / "dalej": read the log (stage statuses + the whole
+`## Discoveries` section — that's your recovered context) → find first ⬜/🟡 stage →
 resume at "Executing a stage". No full re-exploration.
