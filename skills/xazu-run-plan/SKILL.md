@@ -12,24 +12,61 @@ allowed-tools:
 
 # Run Plan — log-driven execution
 
-Use this skill to **execute** a plan that lives in a file (e.g. `.agents/plans/X_PLAN.md`,
-`docs/plans/x.md`), or to **create** a plan + log scaffold before work starts. The
+Use this skill to **execute** a plan that lives in a file (`.agents/plans/<NAME>_PLAN.md`),
+or to **create** a plan + log scaffold before work starts. The
 companion log makes long work resumable across sessions — the next session reads ONE
 log file instead of re-exploring the codebase.
 
+## File layout & naming convention
+
+Canonical layout — apply it when creating files and when tidying a repo:
+
+```
+.agents/plans/
+  <NAME>_PLAN.md                  executable plan (SCREAMING_SNAKE_CASE)
+  <NAME>_IMPLEMENTATION_LOG.md    its companion log — same <NAME>, same folder
+  <topic>-<doc>.md                standing docs (checklists, indexes) — kebab-case
+  done/                           finished plan+log pairs (always moved together)
+.agents/logs/                     scratch command output — gitignored, disposable
+```
+
+Rules:
+
+- **`<NAME>`** is `SCREAMING_SNAKE_CASE`, a short topic (1–4 words): `ERROR_LOGGING`,
+  `BILLING_AUDIT`. Follow-up rounds of the same topic append `_ROUND<N>`:
+  `BILLING_AUDIT_ROUND3`. Never `kebab-case`, never a bare `<name>.md` for plans.
+- **The `_PLAN.md` suffix is the discovery mechanism.** A file is a runnable plan
+  iff it ends in `_PLAN.md`. Standing documents (checklists, matrices, notes) use
+  `kebab-case` and never carry the `_PLAN`/`_IMPLEMENTATION_LOG` suffixes.
+- **Plan ↔ log is a 1:1 pair.** Derive the log name mechanically: replace
+  `_PLAN.md` with `_IMPLEMENTATION_LOG.md`. Never invent a different name or put
+  the log in a different folder.
+- **Finished work archives to `done/`.** When every stage reaches a terminal
+  status (✅/🟡/⛔ — nothing ⬜ and no resumption expected), move BOTH files to
+  `.agents/plans/done/`. Relative links between them keep working; the plans root
+  then shows only live work. 🟡 stages pending manual/operator approval count as
+  done from the agent's side — note the pending gate in the log before archiving.
+- **`.agents/logs/` is scratch only.** Redirect bulky command output there during
+  a stage (`cmd > .agents/logs/<name>-stage<n>.txt`), but the permanent record is
+  the log's **Verification** line (command + result). Keep the directory in
+  `.gitignore`; never treat it as source of truth.
+
+Non-plan directories (`.devin/plans/`, `docs/plans/`) may hold legacy plans — when
+you touch one, move it into `.agents/plans/` under this convention.
+
 ## Find the plan
 
-- If the user named a plan file, use it.
-- Otherwise check `.agents/plans/`, `.devin/plans/`, `docs/plans/` — pick the file
-  matching the request; ask only if genuinely ambiguous.
+- If the user named a plan file, use it (a path under `done/` is fine for reference).
+- Otherwise list `.agents/plans/` and pick the `*_PLAN.md` matching the request —
+  `done/` and kebab-case files are not candidates; ask only if genuinely ambiguous.
 - **No plan exists** → create one via "Creating a plan" below (plan + empty log),
   then continue to execution — this skill was invoked to get work done.
 - If the user asked you to PLAN (not implement), jump to "Creating a plan".
 
 ## Companion log
 
-The log lives next to the plan: replace `_PLAN.md` with `_IMPLEMENTATION_LOG.md`, or
-append `_IMPLEMENTATION_LOG` to the base name (`x.md` → `x_IMPLEMENTATION_LOG.md`).
+The log lives next to the plan with the derived name:
+`.agents/plans/<NAME>_PLAN.md` → `.agents/plans/<NAME>_IMPLEMENTATION_LOG.md`.
 
 - **Exists** → read it (usually the only file you need to fully re-read), resume from
   the first non-✅ stage. Never redo a ✅ stage unless the user asks.
@@ -70,11 +107,12 @@ append `_IMPLEMENTATION_LOG` to the base name (`x.md` → `x_IMPLEMENTATION_LOG.
 When the user asks to plan work rather than implement it — or no plan file exists:
 
 1. Explore cheaply (see `opt-tokens` if available).
-2. Write `<NAME>_PLAN.md` with: goal, in/out of scope, numbered stages ordered by
+2. Write `.agents/plans/<NAME>_PLAN.md` (naming per the convention above) with:
+   goal, in/out of scope, numbered stages ordered by
    dependency (foundation → features → migration → docs → verification), key
    decisions, non-negotiable contracts, and a test/acceptance section.
-3. Create the empty `<NAME>_IMPLEMENTATION_LOG.md` from the template — one section
-   per stage, all ⬜.
+3. Create the empty `.agents/plans/<NAME>_IMPLEMENTATION_LOG.md` from the template
+   — one section per stage, all ⬜.
 4. Stop only if the user asked for a plan alone; when the plan was missing during
    execution, continue straight to "Executing a stage".
 
