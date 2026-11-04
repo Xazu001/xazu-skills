@@ -17,6 +17,7 @@ Global [Devin CLI](https://devin.ai) skills, synced across machines.
 | `xazu-open-pr` | Pushes the branch and opens a `gh` PR — Summary covering all commits + test plan. |
 | `xazu-confirm` | Restates the request as a polished structured summary (PL/EN mirrored) and asks "is this what you meant?" before acting. |
 | `xazu-skill-scout` | Finds Agent Skills on the internet for the task at hand, security-audits them, and applies/installs only the safe ones. |
+| `xazu-solution-scout` | Pre-implementation scout — searches the internet for libraries, services, integrations, and prior art that make the planned approach cheaper/simpler/already-solved. |
 
 ## Install
 
