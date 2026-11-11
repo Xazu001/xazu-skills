@@ -23,6 +23,7 @@ Canonical layout for new files:
 
 ```
 .agents/plans/
+  README.md                       folder index — layout & naming rules (see "Folder README")
   <NAME>_PLAN.md                  executable plan (SCREAMING_SNAKE_CASE)
   <NAME>_IMPLEMENTATION_LOG.md    its companion log — same <NAME>, same folder
   <topic>-<doc>.md                standing docs (checklists, indexes) — kebab-case
@@ -73,13 +74,82 @@ that it is active despite its location. Offer to move its pair back to the activ
 folder, but ask first and check conflicts and links as above. Until moved, tell
 the user to name its path when resuming because automatic discovery excludes `done/`.
 
+## Folder README
+
+`.agents/plans/README.md` is the folder's standing index: it documents the
+layout and naming convention for humans and agents that have not read this
+skill. Treat it as part of the convention above.
+
+- **Missing** → when creating a plan or log in a repo whose `.agents/plans/`
+  lacks `README.md` (or whenever the user asks), create it from the template
+  below. Adapt the intro to what the repo actually has (drop the `../specs/`
+  pointer if that folder does not exist); do not invent folders or rules that
+  contradict this skill.
+- **Exists** → leave it alone unless the layout or naming rules above changed
+  or the user asks; then update it in place, preserving repo-specific wording
+  and links. Never delete or rename it without explicit confirmation.
+- It is a standing document: fixed name `README.md`, never carries
+  `_PLAN`/`_IMPLEMENTATION_LOG` suffixes, never archived to `done/`.
+
+### README template
+
+````markdown
+# Plans — file layout & naming convention
+
+Executable plans and their implementation logs live here. Create, edit or run
+them with the global `/xazu-run-plan` skill. Design specifications belong in
+`../specs/`; current feature documentation belongs in `docs/`.
+
+```
+.agents/plans/
+  README.md                       folder index — layout & naming rules
+  <NAME>_PLAN.md                  executable plan (SCREAMING_SNAKE_CASE)
+  <NAME>_IMPLEMENTATION_LOG.md    its companion log — same <NAME>, same folder
+  <topic>-<doc>.md                standing docs (checklists, indexes) — kebab-case
+  done/                           archived plan+log pairs (always moved together)
+.agents/logs/                     scratch command output — gitignored, disposable
+```
+
+## Rules
+
+- `<NAME>` is `SCREAMING_SNAKE_CASE`, a short topic (1–4 words): `ERROR_LOGGING`,
+  `BILLING_AUDIT`. Follow-up rounds append `_ROUND<N>`: `BILLING_AUDIT_ROUND3`.
+- Automatic discovery considers active files ending in `_PLAN.md`, not `done/`
+  or standing documents. An explicitly named legacy plan may use another name.
+  Standing documents (e.g. `release-checklist.md`) use `kebab-case` and never
+  carry `_PLAN`/`_IMPLEMENTATION_LOG` suffixes.
+- Canonical plan ↔ log is a 1:1 pair: replace `_PLAN.md` with
+  `_IMPLEMENTATION_LOG.md` in the same folder. For a legacy plan, preserve an
+  existing companion; if none is identifiable, agree on its name and location
+  before creating one.
+- For an existing plan with a missing log, recover only evidence-backed history;
+  mark uncertain stages and final verification ❔, not ✅ or ⬜. Resolve
+  uncertainty before acting on affected stages or their dependants.
+- A plan is complete only when every stage is ✅ or explicitly removed from scope
+  with user approval (❌), final verification passes, and no acceptance criterion
+  or approval is outstanding. The user may also request or approve archiving an
+  unfinished, blocked, superseded or abandoned plan: explain outstanding work
+  and record the reason in its log without changing statuses or claiming
+  completion.
+- Ask before archiving unless the user already requested that specific move;
+  check destination conflicts and links, then move the plan and log together
+  without overwriting. Existing legacy or archived plans stay in place unless a
+  move is requested or approved. Refer to an archived plan by path when resuming.
+- Deleting a plan or log requires explicit confirmation for the specific files.
+  Explain lost history, remaining work and affected links first; archiving and
+  general cleanup requests do not authorize deletion.
+- `.agents/logs/` holds disposable per-stage command output (gitignored). The
+  permanent record is the log's **Verification** line — command + result.
+````
+
 ## Find the plan
 
 - If the user named a plan file, use that path, including a legacy or `done/` path.
 - Otherwise list `.agents/plans/` and pick the `*_PLAN.md` matching the request —
   `done/` and kebab-case files are not candidates; ask only if genuinely ambiguous.
 - **No plan exists** → create one via "Creating or editing a plan" below (plan +
-  empty log), then continue to execution if implementation was requested.
+  empty log + folder README if missing), then continue to execution if
+  implementation was requested.
 - If the user asks to create or edit a plan without implementation, use "Creating
   or editing a plan" and stop after planning. If editing, find and read the existing
   plan and its log first if present; do not create a replacement over them.
@@ -210,8 +280,9 @@ a level.
    migration/docs and final checks when applicable; do not force irrelevant stages.
    Use discoverable project commands; if unknown, say what must be identified.
 5. Write a new `.agents/plans/<NAME>_PLAN.md` following the convention above, or
-   edit the existing plan in its current location. A compact structure, adapted to
-   the chosen level, is:
+   edit the existing plan in its current location. If `.agents/plans/README.md`
+   is missing, create it from the "Folder README" template. A compact plan
+   structure, adapted to the chosen level, is:
 
    ```markdown
    # <Plan name>
