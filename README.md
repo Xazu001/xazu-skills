@@ -4,12 +4,15 @@ Global [Devin CLI](https://devin.ai) skills, synced across machines.
 
 | Skill | Purpose |
 | ----- | ------- |
-| `xazu-run-plan` | Execute a `*_PLAN.md` stage-by-stage (creates it if missing) with a companion `*_IMPLEMENTATION_LOG.md` — resumable across sessions, accumulates discoveries in one place. |
+| `xazu-run-plan` | Create or edit plans at a short, standard or detailed level; execute them stage-by-stage with a resumable companion `*_IMPLEMENTATION_LOG.md`. |
 | `xazu-opt-tokens` | Token-economy mode: targeted reads, no re-reads, terse output. |
 | `xazu-map-repo` | One-time deep exploration → compact `REPO_MAP.md` future sessions read instead of re-exploring. Supports `refresh`. |
 | `xazu-session-handoff` | Saves session state (done / in-progress / blockers / next / hard-won context) to `HANDOFF.md` for cheap resume. |
 | `xazu-scope-guard` | Session-wide scope enforcement — minimal diff, no drive-by refactors, ask before expanding. |
 | `xazu-review` | Read-only code review of staged diff / branch / PR / commit / files — findings by severity with `file:line`. |
+| `xazu-debug` | Investigate bugs systematically, find their root cause and verify a minimal fix when requested. |
+| `xazu-verify` | Verify changes with scope-appropriate evidence and report checks, failures and gaps. |
+| `xazu-skill-check` | Review global and project skills or selected skills, and recommend project-specific additions. |
 | `xazu-commit-devin` | Commit authored by Devin (identity + attribution trailer, `-c` flags, never touches git config). |
 | `xazu-commit-me` | Commit authored by you (your configured git identity). |
 | `xazu-split-commits` | Splits current work into multiple logical commits via file/hunk-level staging. |
