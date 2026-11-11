@@ -1,7 +1,7 @@
 ---
 name: xazu-run-plan
-description: Execute a plan file stage-by-stage (creating it if missing) with a companion *_IMPLEMENTATION_LOG.md — resumable across sessions, minimal re-exploration, accumulates discoveries.
-argument-hint: "[plan file or stage]"
+description: Create or edit an actionable plan at the requested detail level, or execute it stage-by-stage with a resumable companion *_IMPLEMENTATION_LOG.md.
+argument-hint: "[plan file or stage] [short | standard | detailed]"
 allowed-tools:
   - read
   - edit
@@ -13,7 +13,7 @@ allowed-tools:
 # Run Plan — log-driven execution
 
 Use this skill to **execute** a plan that lives in a file (`.agents/plans/<NAME>_PLAN.md`),
-or to **create** a plan + log scaffold before work starts. The
+or to **create or edit** a plan + log scaffold before work starts. The
 companion log makes long work resumable across sessions — the next session reads ONE
 log file instead of re-exploring the codebase.
 
@@ -59,9 +59,11 @@ you touch one, move it into `.agents/plans/` under this convention.
 - If the user named a plan file, use it (a path under `done/` is fine for reference).
 - Otherwise list `.agents/plans/` and pick the `*_PLAN.md` matching the request —
   `done/` and kebab-case files are not candidates; ask only if genuinely ambiguous.
-- **No plan exists** → create one via "Creating a plan" below (plan + empty log),
-  then continue to execution — this skill was invoked to get work done.
-- If the user asked you to PLAN (not implement), jump to "Creating a plan".
+- **No plan exists** → create one via "Creating or editing a plan" below (plan +
+  empty log), then continue to execution if implementation was requested.
+- If the user asks to create or edit a plan without implementation, use "Creating
+  or editing a plan" and stop after planning. If editing, find and read the existing
+  plan and its log first; do not create a replacement over them.
 
 ## Companion log
 
@@ -102,19 +104,87 @@ The log lives next to the plan with the derived name:
 - Keep exploration cheap: grep + offset reads of specific functions instead of
   full-file reads; do not re-read files you already know this session.
 
-## Creating a plan (planning mode)
+## Creating or editing a plan
 
-When the user asks to plan work rather than implement it — or no plan file exists:
+Use this workflow when a plan is missing or the user asks to create, expand,
+shorten, or otherwise edit one. Respect the active mode and approval requirements:
+if files cannot be written yet, present the plan in chat instead and wait for
+approval; a planning-only request never authorizes implementation.
 
-1. Explore cheaply (see `opt-tokens` if available).
-2. Write `.agents/plans/<NAME>_PLAN.md` (naming per the convention above) with:
-   goal, in/out of scope, numbered stages ordered by
-   dependency (foundation → features → migration → docs → verification), key
-   decisions, non-negotiable contracts, and a test/acceptance section.
-3. Create the empty `.agents/plans/<NAME>_IMPLEMENTATION_LOG.md` from the template
-   — one section per stage, all ⬜.
-4. Stop only if the user asked for a plan alone; when the plan was missing during
-   execution, continue straight to "Executing a stage".
+### Detail level
+
+Accept a level anywhere in the request, including natural language:
+
+- **Short** (`short`, `concise`, `krótko`, `zwięźle`) — compact bullets; group
+  closely related actions into a few stages. Keep the minimum below, not just titles.
+- **Standard** (`standard`, `normalnie`) — the default when unspecified; give
+  each stage an approach, relevant paths when known, dependencies and verification.
+- **Detailed** (`detailed`, `szczegółowo`, `dokładnie`) — add actionable
+  substeps, relevant interfaces and edge cases, concrete verification, risks and
+  decision points where useful. Do not pad with speculative paths or code.
+
+Examples: `/xazu-run-plan plan logowania krótko`, `/xazu-run-plan AUTH_PLAN.md
+szczegółowo`, or "rozbuduj istniejący plan, ale bez implementacji". An explicit
+level wins; otherwise preserve an existing plan's level when editing, or use
+standard for a new plan. Scale detail to risk and complexity even at the chosen
+level. Ask only when the choice materially affects the outcome, not just to select
+a level.
+
+### Planning workflow
+
+1. Understand the request and explore only relevant repo rules, existing behavior,
+   tests and conventions. Identify existing plans and the companion log before
+   creating anything. Resolve questions from available context first; ask focused
+   questions only for decisions or missing requirements that materially block
+   planning. Mark other assumptions and open questions explicitly.
+2. Describe the intended outcome and why it matters; separate requirements and
+   constraints from assumptions. State in-scope and out-of-scope work, preserved
+   contracts, and observable acceptance criteria. Include non-functional needs
+   (e.g. security, compatibility, performance) only when relevant.
+3. Choose an approach grounded in what was actually inspected. Record key decisions,
+   alternatives or risks when they matter, and distinguish verified facts from
+   proposed paths or unresolved choices. Do not invent files, commands or behavior.
+4. Break work into numbered, dependency-ordered stages. For each stage specify
+   the outcome, concrete actions, affected files/components if known, dependencies
+   where relevant, and how to verify it. Include appropriate tests, edge cases,
+   migration/docs and final checks when applicable; do not force irrelevant stages.
+   Use discoverable project commands; if unknown, say what must be identified.
+5. Write `.agents/plans/<NAME>_PLAN.md` following the convention above. A compact
+   structure, adapted to the chosen level, is:
+
+   ```markdown
+   # <Plan name>
+
+   **Goal:** <outcome and why>
+   **Detail:** <short | standard | detailed>
+   **Scope:** <in scope; out of scope>
+   **Requirements and contracts:** <must-haves and constraints>
+   **Acceptance:** <observable criteria>
+   **Context and decisions:** <verified context, approach, relevant paths>
+   **Assumptions / risks / open questions:** <only what matters>
+
+   ## Stage 1 — <outcome>
+   - Actions: <concrete work and affected files/components if known>
+   - Depends on: <stage or none>
+   - Verification: <test/check and expected result, or what must be identified>
+
+   ## Final verification
+   - <checks mapping back to acceptance criteria>
+   ```
+
+6. For a new plan, create its companion log from the template below with one
+   section per stage, all ⬜. For an existing plan, update it in place and preserve
+   unrelated content, completed work, existing stage identifiers and log history.
+   Add log sections for new stages without resetting statuses; if completed work
+   needs changes, add a follow-up stage rather than silently marking it undone.
+   Record substantive revisions and their reason in the log. If the log is missing,
+   create it without claiming past work or verification.
+7. Review for traceability from goal and requirements to stages and acceptance
+   checks, sensible ordering, actionable steps, unresolved blockers and consistency
+   between plan and log. Avoid repeating context or presenting guesses as facts.
+   Stop after a planning-only request. If a missing plan was created for requested
+   implementation, continue to "Executing a stage" only when the active mode and
+   any required approvals allow it.
 
 ## Log template
 
