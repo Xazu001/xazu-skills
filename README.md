@@ -6,7 +6,7 @@ Global [Devin CLI](https://devin.ai) skills, synced across machines.
 | ----- | ------- |
 | `xazu-run-plan` | Create, edit and execute plans with resumable logs; archive plans deliberately or delete specific files with explicit confirmation. |
 | `xazu-opt-tokens` | Token-economy mode: targeted reads, no re-reads, terse output. |
-| `xazu-map-repo` | One-time deep exploration → compact `REPO_MAP.md` future sessions read instead of re-exploring. Supports `refresh`. |
+| `xazu-map-repo` | Maps architecture and conventions in `.agents/REPO_MAP.md`, adds an `AGENTS.md` pointer and supports refresh or section updates. |
 | `xazu-session-handoff` | Saves session state (done / in-progress / blockers / next / hard-won context) to `HANDOFF.md` for cheap resume. |
 | `xazu-scope-guard` | Session-wide scope enforcement — minimal diff, no drive-by refactors, ask before expanding. |
 | `xazu-review` | Read-only code review of staged diff / branch / PR / commit / files — findings by severity with `file:line`. |
