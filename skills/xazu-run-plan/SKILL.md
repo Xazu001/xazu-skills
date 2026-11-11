@@ -26,7 +26,7 @@ Canonical layout for new files:
   <NAME>_PLAN.md                  executable plan (SCREAMING_SNAKE_CASE)
   <NAME>_IMPLEMENTATION_LOG.md    its companion log — same <NAME>, same folder
   <topic>-<doc>.md                standing docs (checklists, indexes) — kebab-case
-  done/                           completed plan+log pairs (moved together)
+  done/                           archived plan+log pairs (moved together)
 .agents/logs/                     scratch command output — gitignored, disposable
 ```
 
@@ -43,13 +43,24 @@ Rules:
   `_PLAN.md` with `_IMPLEMENTATION_LOG.md` in the same folder. For a legacy plan
   without that suffix, preserve an existing companion; if none is identifiable,
   ask the user to agree on its name and location before creating one.
-- **Archive only complete work.** Every stage must be ✅ or explicitly removed
-  from scope with the user's approval (❌), final verification must pass, and no
-  acceptance criterion or approval may remain outstanding. Never archive ⬜, 🔄,
-  🟡, ⛔ or ❔ work merely because the agent cannot proceed. Ask before moving
-  an eligible plan and log to `done/`, unless the user already requested the move.
-  Move the pair together, check for destination conflicts and affected links, and
-  update links as needed; never overwrite existing files.
+- **Archive deliberately, without changing the truth.** A plan is complete only
+  when every stage is ✅ or explicitly removed from scope with the user's approval
+  (❌), final verification passes, and no acceptance criterion or approval remains
+  outstanding. The user may also request or approve archiving an unfinished,
+  blocked, superseded or abandoned plan. Before moving it, explain unresolved
+  stages, checks and approvals; record the archive reason and outstanding work in
+  the log without changing their statuses or calling the plan complete. Never
+  archive merely because the agent cannot proceed. Ask before moving any plan
+  and log to `done/`, unless the user already requested that specific move. Move
+  the pair together, check destination conflicts and affected links, update links
+  as needed, and never overwrite existing files.
+- **Deletion is separate from archiving.** A plan, log or other file may be
+  deleted only after explicit confirmation for the specific files and deletion
+  action. First identify the affected paths, companion, remaining work, history
+  and links; explain what will be lost and offer archiving when appropriate.
+  Do not treat general permission to clean up, an archive request, or permission
+  for a different deletion as approval. Preserve any companion not explicitly
+  approved for deletion and repair affected links without inventing history.
 - **`.agents/logs/` is scratch only.** Redirect bulky command output there during
   a stage (`cmd > .agents/logs/<name>-stage<n>.txt`), but the permanent record is
   the log's **Verification** line (command + result). Keep the directory in
@@ -57,10 +68,10 @@ Rules:
 
 Existing plans in legacy locations (`.devin/plans/`, `docs/plans/`) or `done/`
 stay in place when read or edited; do not silently move or rename them. If an
-archived plan gains unfinished work, explicitly flag that it is active despite its
-location. Offer to move its pair back to the active folder, but ask first and
-check conflicts and links as above. Until moved, tell the user to name its path
-when resuming because automatic discovery excludes `done/`.
+archived plan has unfinished work and the user asks to resume it, explicitly flag
+that it is active despite its location. Offer to move its pair back to the active
+folder, but ask first and check conflicts and links as above. Until moved, tell
+the user to name its path when resuming because automatic discovery excludes `done/`.
 
 ## Find the plan
 
@@ -315,5 +326,6 @@ When the user says "continue" / "dalej":
 4. Start the next ⬜ stage whose prerequisites are satisfied. Independent stages
    can proceed while a gate or blocker remains, if authorized; dependent stages
    cannot. If nothing is actionable, stop and report the next action and owner.
-5. After stages are resolved, complete and record final verification. Archive only
-   under the rules above. Avoid full re-exploration when existing context suffices.
+5. After stages are resolved, complete and record final verification. Archive or
+   delete only under the rules above. Avoid full re-exploration when existing
+   context suffices.
