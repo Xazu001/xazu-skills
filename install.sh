@@ -21,7 +21,8 @@ esac
 
 mkdir -p "$BASE"
 
-for dir in skills/*/; do
+for dir in skills/*/ .devin/skills/*/; do
+  [ -d "$dir" ] || continue
   name="$(basename "$dir")"
   mkdir -p "$BASE/$name"
   cp "$dir"SKILL.md "$BASE/$name/SKILL.md"

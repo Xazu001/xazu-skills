@@ -11,6 +11,7 @@ Global [Devin CLI](https://devin.ai) skills, synced across machines.
 | `xazu-scope-guard` | Session-wide scope enforcement — minimal diff, no drive-by refactors, ask before expanding. |
 | `xazu-review` | Read-only code review of staged diff / branch / PR / commit / files — findings by severity with `file:line`. |
 | `xazu-debug` | Investigate bugs systematically, find their root cause and verify a minimal fix when requested. |
+| `xazu-rethink` | Design a feature or architecture from its goal without consulting the existing implementation, then integrate it when requested. |
 | `xazu-verify` | Verify changes with scope-appropriate evidence and report checks, failures and gaps. |
 | `xazu-skill-check` | Review global and project skills or selected skills, and recommend project-specific additions. |
 | `xazu-commit-devin` | Commit authored by Devin (identity + attribution trailer, `-c` flags, never touches git config). |
@@ -36,6 +37,10 @@ powershell -ExecutionPolicy Bypass -File install.ps1
 
 Installs to `~/.config/devin/skills/` (macOS/Linux) or `%APPDATA%\devin\skills\` (Windows). Then invoke `/xazu-run-plan` or `/xazu-opt-tokens` in a session — or ask the agent to "use xazu-run-plan" and it will pick the skill up.
 
+For a clean-slate design, try `/xazu-rethink redesign authentication for this app`
+and include the desired behavior and any constraints.
+
 ## Update
 
-Edit `skills/<name>/SKILL.md`, push, re-run the installer on each machine.
+Edit the skill under `skills/<name>/SKILL.md` or `.devin/skills/<name>/SKILL.md`,
+push, then re-run the installer on each machine.

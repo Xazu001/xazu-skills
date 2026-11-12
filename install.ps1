@@ -5,7 +5,8 @@ $ErrorActionPreference = 'Stop'
 $base = Join-Path $env:APPDATA 'devin\skills'
 New-Item -ItemType Directory -Force -Path $base | Out-Null
 
-Get-ChildItem -Directory -Path (Join-Path $PSScriptRoot 'skills') | ForEach-Object {
+$skillRoots = @((Join-Path $PSScriptRoot 'skills'), (Join-Path $PSScriptRoot '.devin\skills'))
+Get-ChildItem -Directory -Path $skillRoots | ForEach-Object {
   $target = Join-Path $base $_.Name
   New-Item -ItemType Directory -Force -Path $target | Out-Null
   Copy-Item (Join-Path $_.FullName 'SKILL.md') (Join-Path $target 'SKILL.md') -Force
