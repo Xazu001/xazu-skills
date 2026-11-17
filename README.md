@@ -42,5 +42,5 @@ and include the desired behavior and any constraints.
 
 ## Update
 
-Edit the skill under `skills/<name>/SKILL.md` or `.devin/skills/<name>/SKILL.md`,
+Edit the skill under `skills/<name>/SKILL.md`,
 push, then re-run the installer on each machine.
